@@ -56,16 +56,18 @@
 
 #define SN74_SPI     1
 #define SN74_BANG    2
-#define AVR_ATTINY   1
+
+#define SN74OE	0
 
 
 /* switch this to 'SN74_SPI' for SPI mode */
-#define DATA_XFER_MOD SN74_BANG
+#define DATA_XFER_MOD SN74_SPI  
 
 /* Include chip pinouts.  Has to know XFER Mode, so can't include til
  * now. */
 #include "pinouts/chips.h"
 
+//not sure if these are necessary ...? 
 #define PWM_PERIOD 8192
 #define CLK_PERIOD 3
 
@@ -91,9 +93,17 @@
 ***********************************************************************/
 
 /* Output Enable to SN74HC595 pin 13 */
-#define OE_PIN   SN_OE_PIN
-#define OE_PORT  SN_OE_PORT
-#define OE_DDR   SN_OE_DDR
+//only valid for bitbang mode.
+#if SN74OE == 1 
+#if DATA_XFER_MOD == SN74_BANG
+#define OE_PIN   SN_MISO_PIN
+#define OE_PORT  SN_MISO_PORT
+#define OE_DDR   SN_MISO_DDR
+#else //DATA_XFER_MOD == SN74_SPI
+#error "Output Enable requires DATA_XFER_MODE == SN74_BANG"
+#endif //DataXferMod
+#endif //SN74OE
+
 
 /* Serial Clear to SN74HC595 pin 10 */
 #define CLR_PIN   SN_CLR_PIN

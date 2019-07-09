@@ -28,19 +28,26 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "sn74_config.h"
-#include "sn74.h"
+#include "tinysn74_config.h"
+#include "tinysn74.h"
+
+//DEBG = 1 for debugging / slowing things down
+#define DEBUG 0
+
+//#if DEBUG == 1
+#include <util/delay.h>
+//#endif
 
 /*send a pulse (hi, then lo) to a pin*/
 #define pulse(port,pin) port |= _BV(pin); port &= ~_BV(pin);
 #define hi(port,pin) port |= _BV(pin);
 #define lo(port,pin) port &= ~_BV(pin);
 
+//volatile void (*UpdateFinished)(void);
 
-volatile void (*UpdateFinished)(void);
 
-
-/** Interrupt called after a LAT pulse to prevent more LAT pulses. */
+/** Interrupt called after a LAT pulse to prevent more LAT pulses. 
+// not sure this works on the attiny... 
 ISR(TIMER1_OVF_vect)
 {
     disableLATpulse();
@@ -49,60 +56,70 @@ ISR(TIMER1_OVF_vect)
         sei();
         UpdateFinished();
     }
-}
+} */
 
 void snInit (void)
 {
   /* setup pins */
   CLR_DDR |= _BV(CLR_PIN);
-  OE_DDR |= _BV(OE_PIN);
   LAT_DDR |= _BV (LAT_PIN);
 
   
   snShiftInit();
 
   snCLR();
-  snShift(0x04);
 
-    
-  snOE(0x0); // enable low.
+  #if SN74OE == 1    
+    OE_DDR |= _BV(OE_PIN);
+    snOE(0x0) // enable low.
+  #endif
 
   disableLATpulse();
   clearLATinterrupt();
   
-  
 
   /* Timer 1 - BLANK / XLAT */
-  TCCR1A = _BV(COM1B1);  // non inverting, output on OC1B, BLANK
-  TCCR1B = _BV(WGM13);   // Phase/freq correct PWM, ICR1 top
+  TCCR0A = _BV(COM0B1) |_BV(WGM00);  // non inverting, output on OC1B, BLANK
+  TCCR0B = _BV(WGM02); // Phase/freq correct PWM, OCRA top
   OCR1A = 1;             // duty factor on OC1A, LAT is inside BLANK
   OCR1B = 2;             // duty factor on BLANK (larger than OCR1A (XLAT))
-  TCCR1B |= _BV(CS10);   // Sart PWM... I hope?
-  snUpdate();
+  TCCR0B |= _BV(CS00);   // Sart PWM... I hope?
   
 }
 
 void snCLR (void)
 {
   //clear all serial data, i think 
-  lo(CLR_PORT,CLR_PIN);
-  pulse(CLK_PORT,CLK_PIN);
-  pulse(LAT_PORT,LAT_PIN);
-  hi(CLR_PORT,CLR_PIN);
+  #if DEBUG == 1
+    lo(CLR_PORT,CLR_PIN);
+    hi (CLK_PORT,CLK_PIN);
+    _delay_ms (100);
+    lo (CLK_PORT,CLK_PIN);
+    hi (LAT_PORT,LAT_PIN);
+    _delay_ms (100);
+    lo (LAT_PORT,LAT_PIN);
+    hi(CLR_PORT,CLR_PIN);
+  #else
+    lo(CLR_PORT,CLR_PIN);
+    pulse(CLK_PORT,CLK_PIN);
+    pulse(LAT_PORT,LAT_PIN);
+    hi(CLR_PORT,CLR_PIN);
+  #endif 
   
 }
   
-  
-void snOE (uint8_t on)
+#if SN74OE == 1  
+void snOE (uint8_t off)
 {
 
-  if (byte==0) // enable
+  if (off==0) // enable
     //set OE pin low - ENABLE outputs
-    SN_OE_DDR &= ~_BV(SN_OE_PIN);
+    OE_DDR &= ~_BV(SN_OE_PIN);
   else 
     //set OE pin high - DISABLE outputs
-    SN_OE_DDR |= _BV(SN_OE_PIN); 
+    OE_DDR |= _BV(SN_OE_PIN); 
 }
+#endif
 
 #if DATA_XFER_MOD == SN74_BANG
 void snShiftInit (void)
@@ -116,12 +133,21 @@ void snShift (uint8_t b)
 {
   for (uint8_t bit = 0x80; bit; bit >>=1) {
     if (bit & b) {
-      DIN_PORT |= _BV(DIN_PIN);
+      hi(DIN_PORT,DIN_PIN);   
+      #if DEBUG == 1
+        _delay_ms (100);
+      #endif
     }
     else {
-      DIN_PORT &= ~_BV(DIN_PIN);
+      lo(DIN_PORT,DIN_PIN);     
     }
-    pulse(CLK_PORT,CLK_PIN);
+    #if DEBUG == 1 
+      hi(CLK_PORT,CLK_PIN);
+      _delay_ms (100);
+      lo(CLK_PORT,CLK_PIN);
+    #else 
+      pulse(CLK_PORT,CLK_PIN);
+    #endif
   }
 }
 #elif DATA_XFER_MOD == SN74_SPI
@@ -133,9 +159,7 @@ void snShiftInit (void)
   CLK_DDR |= _BV(CLK_PIN); //SCLK as output
   CLK_PORT &= ~_BV(CLK_PIN); //CLK LOW
 
-  // SS isn't actually used in the ATTINY.  Here for reference.
-  // SN_SS_DDR |= _BV(SN_SS_PIN); // SS as output
-  
+
   // SPSR = SPI Status Register for ATMega == USISR maybe
 
   /* -- SPSR -- 
@@ -186,6 +210,7 @@ void snShiftInit (void)
 
   //USIDR = USI Data Register
 
+  // I have no idea if this is correct
   // SPSR = _BV(SPI2X); //double speed
   // SPCR = _BV(SPE) | _BV(MSTR); //enable SPI, in master mode 
   USISR = 0x0; //not using any TWI stuff, set counter to zero
@@ -198,7 +223,7 @@ void snShiftInit (void)
 void snShift (uint8_t b)
 {
   USIDR = b;
-  while (!(USISR & 1<<(USOIF)))
+  while (!(USISR & 1<<(USIOIF)))
   {
     ; //wait until we hit a clock overflow 
   }
@@ -210,5 +235,11 @@ void snShift (uint8_t b)
 void snLat (void)
 {
   // latch the data in.
-  pulse(LAT_PORT,LAT_PIN)
+  #if DEBUG == 0 
+    hi(LAT_PORT,LAT_PIN);
+    _delay_ms (100);
+    lo(LAT_PORT,LAT_PIN);
+  #else 
+    pulse(LAT_PORT,LAT_PIN);
+  #endif
 }

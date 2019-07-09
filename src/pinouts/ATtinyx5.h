@@ -41,11 +41,11 @@
 #define SN_MOSI_PORT PORTB
 #define SN_MOSI_DDR  DDRB
 
-/* SPI SS (ATTiny pin 6) : SN74HC595 pin 12 */
-// Borrowing MISO - default unused
-#define SN_SS_PIN  PB1
-#define SN_SS_PORT PORTB
-#define SN_SS_DDR  DDRB
+/* SPI MISO (ATTiny pin 6) : SN74HC595 pin 12 */
+//only valid for bitbang mode
+#define SN_MISO_PIN  PB1
+#define SN_MISO_PORT PORTB
+#define SN_MISO_DDR  DDRB
 
 /* SPI CLK (ATTiny pin 7) -> SRCLK ( SN74 pin 11) */
 #define SN_CLK_PIN  PB2
@@ -56,7 +56,7 @@
 
 /* Rest of GPIO pins */
 
-/* CLR (ATTiny pin 2) -> SRCLR (SN74 pin 11) */
+/* CLR (ATTiny pin 2) -> SRCLR (SN74 pin 10) */
 #define SN_CLR_PIN  PB3
 #define SN_CLR_PORT PORTB
 #define SN_CLR_DDR  DDRB
@@ -66,10 +66,4 @@
 #define SN_LAT_PORT PORTB
 #define SN_LAT_DDR  DDRB
 
-/* Output Enable (ATTiny pin 6) : SN74HC595 pin 13 */
-// Default unused
-#define SN_OE_PIN  PB2
-#define SN_OE_PORT PORTB
-#define SN_OE_DDR  DDRB
-
-#endif 
+#endif

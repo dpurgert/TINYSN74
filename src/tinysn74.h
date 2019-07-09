@@ -29,7 +29,7 @@
 #define SN74_H
 
 #include <stdint.h>
-#include "sn74_config.h"
+#include "tinysn74_config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +51,7 @@ extern "C" {
 void snInit (void);
 
 void snCLR (void);
-void snOE (uint8_t on);
+void snOE (uint8_t off);
 
 void snShiftInit (void);
 void snShift (uint8_t b);
