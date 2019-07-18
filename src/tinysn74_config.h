@@ -31,13 +31,19 @@
 
 #include <stdint.h>
 
+// DO NOT TOUCH THESE TWO.  See below "USER OPTIONS" for configurable
+// settings
+#define SN74_SPI     1 
+#define SN74_BANG    2
+
+
 /***********************************************************************
 *                        USER OPTIONS
 ************************************************************************
 *      These user-definable options are to customize the library
 *      to your specific needs.  Options
 *
-*        - NUM_SN74 -- number of SN74HC595 units daisy-chained together.
+*        - NUMSN74 -- number of SN74HC595 units daisy-chained together.
 *        NOTE that the datasheets do not indicate a maximum number that
 *        one can daisy-chain.  
 *
@@ -45,41 +51,48 @@
 *        bit-banging.
 *        
 *        Pin Mapping:
-*          - Digital Pins 0-7 == PORTD, PD0-7
-*            NOTE - D0 = RXI / D1 = TX0
-*          - Digital Pins 8-13 == PORTB, PB0-5
-*          - Analog Pins 0-3 / Digital Pins 14-17 == PORTC0-3
+*          - ATTiny 25/45/85 Digital Pins 1-6  == PORTB, PB0-5 
+*           - PB5 / pin1 = RESET --- DO NOT TOUCH
+*          
 ***********************************************************************/
 
 
-#define NUM_SN74     1
+#define NUMSN74 1 // set to number of SN74 chips you're using.
+  /* GENERAL GUIDELINE, not 100% tested for long-term stability yet.  
+  *   - TINY25 = 4 chips max (4 bytes / 32 LEDs) - indefinite run
+  *   - TINY45 = 12 chips max (12 bytes / 96 LEDs) - 
+  *   - TINY85 = 28 chips max (28 bytes / 224 LEDs)
+  *
+  *  TODO - replace "NUMSN74" with a bank variable that allows us to set
+  *  based on a word (16 bits) rather than just a byte. Easier maths for
+  *  all!
+  */
 
-#define SN74_SPI     1
-#define SN74_BANG    2
 
 #define SN74OE	0
 
 
 /* switch this to 'SN74_SPI' for SPI mode */
-#define DATA_XFER_MOD SN74_SPI  
+#define DATA_XFER_MOD SN74_BANG 
 
 /* Include chip pinouts.  Has to know XFER Mode, so can't include til
  * now. */
 #include "pinouts/chips.h"
 
-//not sure if these are necessary ...? 
+/*not sure if these are necessary ...? 
 #define PWM_PERIOD 8192
 #define CLK_PERIOD 3
+*/
 
 /* Serial Digital in to  SN74 pin 14*/
-#define DIN_PIN   SN_MOSI_PIN
-#define DIN_PORT  SN_MOSI_PORT
-#define DIN_DDR   SN_MOSI_DDR
+#define DOT_PIN   DEF_MOSI_PIN
+#define DOT_PORT  DEF_MOSI_PORT
+#define DOT_DDR   DEF_MOSI_DDR
 
 /* Serial Clock to SN74 pin 11 */
-#define CLK_PIN   SN_CLK_PIN
-#define CLK_PORT  SN_CLK_PORT
-#define CLK_DDR   SN_CLK_DDR
+#define CLK_PIN   DEF_CLK_PIN
+#define CLK_PORT  DEF_CLK_PORT
+#define CLK_DDR   DEF_CLK_DDR
 
 
 
@@ -95,25 +108,25 @@
 /* Output Enable to SN74HC595 pin 13 */
 //only valid for bitbang mode.
 #if SN74OE == 1 
-#if DATA_XFER_MOD == SN74_BANG
-#define OE_PIN   SN_MISO_PIN
-#define OE_PORT  SN_MISO_PORT
-#define OE_DDR   SN_MISO_DDR
-#else //DATA_XFER_MOD == SN74_SPI
-#error "Output Enable requires DATA_XFER_MODE == SN74_BANG"
-#endif //DataXferMod
+  #if DATA_XFER_MOD == SN74_BANG
+    #define OE_PIN   DEF_MISO_PIN
+    #define OE_PORT  DEF_MISO_PORT
+    #define OE_DDR   DEF_MISO_DDR
+  #else //DATA_XFER_MOD == SN74_SPI
+    #error "Output Enable requires DATA_XFER_MODE == SN74_BANG"
+  #endif //DataXferMod
 #endif //SN74OE
 
 
 /* Serial Clear to SN74HC595 pin 10 */
-#define CLR_PIN   SN_CLR_PIN
-#define CLR_PORT  SN_CLR_PORT
-#define CLR_DDR   SN_CLR_DDR
+#define CLR_PIN   DEF_CLR_PIN
+#define CLR_PORT  DEF_CLR_PORT
+#define CLR_DDR   DEF_CLR_DDR
 
 /* Data Latch to SN74HC595 pin 12 */
-#define LAT_PIN   SN_LAT_PIN
-#define LAT_PORT  SN_LAT_PORT
-#define LAT_DDR   SN_LAT_DDR
+#define LAT_PIN   DEF_LAT_PIN
+#define LAT_PORT  DEF_LAT_PORT
+#define LAT_DDR   DEF_LAT_DDR
 
 
 #if !(DATA_XFER_MOD == SN74_SPI || DATA_XFER_MOD == SN74_BANG)

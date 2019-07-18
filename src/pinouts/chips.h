@@ -77,11 +77,38 @@
 
 /* Chip Specific Pinouts */
 
-#if defined (__AVR_ATtiny25__)
-#include "ATtinyx5.h"
-
+#if defined (__AVR_ATtiny25__) 
+  #include "ATtinyx5.h"
+  #if NUMSN74 > 4
+    #error "Tiny25 only has sufficient RAM for 4 chips."
+  #endif
+#elif defined (__AVR_ATtiny45__) 
+  #include "ATtinyx5.h"
+  #if NUMSN74 > 10
+    #error "Tiny45 only has sufficient RAM for 10 chips."
+  #endif
+#elif defined (__AVR_ATtiny85__) 
+  #include "ATtinyx5.h"
+  #if NUMSN74 > 24
+    #error "Tiny85 only has sufficient RAM for 24 chips."
+  #endif
+#if defined (__AVR_ATtiny24__) 
+  #include "ATtinyx4.h"
+  #if NUMSN74 > 4
+    #error "Tiny24 only has sufficient RAM for 4 chips."
+  #endif
+#elif defined (__AVR_ATtiny44__) 
+  #include "ATtinyx4.h"
+  #if NUMSN74 > 10
+    #error "Tiny44 only has sufficient RAM for 10 chips."
+  #endif
+#elif defined (__AVR_ATtiny84__) 
+  #include "ATtinyx4.h"
+  #if NUMSN74 > 24
+    #error "Tiny85 only has sufficient RAM for 24 chips."
+  #endif
 #else
-#error "Unknown Chip!"
+  #error "Unknown Chip!"
 #endif
 
 #endif

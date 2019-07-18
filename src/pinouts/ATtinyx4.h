@@ -26,8 +26,8 @@
 *  02110-1301, USA.
 ***********************************************************************/
 
-#ifndef SN74_ATTINY_X5_H
-#define SN74_ATTINY_X5_H
+#ifndef SN74_ATTINY_X4_H
+#define SN74_ATTINY_X4_H
 
 /***********************************************************************
 *               SPI and Clock pins for the ATMEGA 328.
@@ -36,34 +36,34 @@
 
 /* SPI Pins */
 
-/* SPI MOSI (ATTiny pin 5) -> SER (SN74 pin 14) */
-#define DEF_MOSI_PIN  PB0
-#define DEF_MOSI_PORT PORTB
-#define DEF_MOSI_DDR  DDRB
+/* SPI MOSI (ATTiny pin 7) -> SER (SN74 pin 14) */
+#define SN_MOSI_PIN  PA6
+#define SN_MOSI_PORT PORTA
+#define SN_MOSI_DDR  DDRA
 
-/* SPI MISO (ATTiny pin 6) -> SN74HC595 pin 12 */
+/* SPI MISO (ATTiny pin 8) -> SN74HC595 pin 12 */
 //INPUT ONLY for SPI mode
-#define DEF_MISO_PIN  PB1
-#define DEF_MISO_PORT PORTB
-#define DEF_MISO_DDR  DDRB
+#define SN_MISO_PIN  PA5
+#define SN_MISO_PORT PORTA
+#define SN_MISO_DDR  DDRA
 
-/* SPI CLK (ATTiny pin 7) -> SRCLK ( SN74 pin 11) */
-#define DEF_CLK_PIN  PB2
-#define DEF_CLK_PORT PORTB
-#define DEF_CLK_DDR  DDRB
+/* SPI CLK (ATTiny pin 9) -> SRCLK ( SN74 pin 11) */
+#define SN_CLK_PIN  PA4
+#define SN_CLK_PORT PORTA
+#define SN_CLK_DDR  DDRA
 
 
 
 /* Rest of GPIO pins */
 
-/* CLR (ATTiny pin 2) -> SRCLR (SN74 pin 10) */
-#define DEF_CLR_PIN  PB3
-#define DEF_CLR_PORT PORTB
-#define DEF_CLR_DDR  DDRB
+/* CLR (ATTiny pin 10) -> SRCLR (SN74 pin 10) */
+#define SN_CLR_PIN  PA3
+#define SN_CLR_PORT PORTA
+#define SN_CLR_DDR  DDRA
 
-/* Data Latch (ATTiny pin 3) -> SN74HC595 pin 12 */
-#define DEF_LAT_PIN  PB4
-#define DEF_LAT_PORT PORTB
-#define DEF_LAT_DDR  DDRB
+/* Data Latch (ATTiny pin 6) -> SN74HC595 pin 12 */
+#define SN_LAT_PIN  PA7
+#define SN_LAT_PORT PORTA
+#define SN_LAT_DDR  DDRA
 
 #endif
