@@ -4,6 +4,24 @@ for use with ATTINY chips.
 
 Communication is currently bit-banging, with SPI in the works.  
 
+## Usage
+Clone the repository into the "libraries" directory in your arduino
+installation directory.
+
+The library includes two (2) header files:
+- tinysn74.h
+- tinysn74_config.h
+
+The library provides several functions:
+- snInit -- This is called from within you sketch setup() function
+- snShift (byte b*) -- This shifts the data out, requires an array to be
+  passed in
+- snLat -- Latch shifted data to the output pins
+- snClr -- Clear the outputs
+- snOE -- (Optional) Must be enabled in tinysn74_config, allows
+  triggering the output enable pin from within your program
+
+
 ## Details
 - Current version: 0.6.0
 - Supports:
