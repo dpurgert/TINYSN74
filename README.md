@@ -5,7 +5,7 @@ for use with ATTINY chips.
 Communication is currently bit-banging, with SPI in the works.  
 
 ## Details
-- Current version: 0.0.1
+- Current version: 0.6.0
 - Supports:
   - ATTinyx5 (25/45/85)
   - ATTinyx4 (24/44/84) - only minimally tested.
@@ -49,3 +49,8 @@ Pins currently undefined in the library are marked as "+++"
 ## Attribution
 Lots of influence from lots of places, mainly the sparkfun repo for the
 TLC5940 driver.  Thanks to one and all for sharing your solutions.
+
+## Changelog
+
+0.6.0 - Added example sketch, fixed math errors causing the library to
+eat significantly more RAM than necessary.
