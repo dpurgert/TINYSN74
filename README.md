@@ -12,6 +12,22 @@ Communication is currently bit-banging, with SPI in the works.
 
 ## Pinouts
 
+### SN74HC595
+Reference pinout of a SN75HC595 shift register.
+
+Output H' is the "carry forward".  Use this to daisy-chain.
+
+|desc|pin|(PDIP/SOIC)|pin|desc|
+|----|---|---|---|----|
+|Out B|1|---|16|VCC|
+|Out C|2|---|15|Out A|
+|Out D|3|---|14|Data In|
+|Out E|4|---|13|OE|
+|Out F|5|---|12|Latch|
+|Out G|6|---|11|CLK|
+|Out H|7|---|10|CLR|
+|GND|8|---|9|Out H'|
+
 ### ATTiny x5
 
 Default pinout for the ATTiny 25/45/85 series.  Note that MISO is

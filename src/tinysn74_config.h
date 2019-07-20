@@ -56,7 +56,7 @@
 ***********************************************************************/
 
 
-#define NUMSN74 1 // set to number of SN74 chips you're using.
+#define NUMSN74 2 // set to number of SN74 chips you're using.
 
   /* GENERAL GUIDELINE, based on RAM / program size.  I don't have
   * enough LEDs (much less the SN74's) to test these out completely. 

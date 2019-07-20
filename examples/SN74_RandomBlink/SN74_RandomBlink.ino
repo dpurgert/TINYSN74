@@ -1,9 +1,10 @@
+/*
+* RandomBlink - this example sketch will randomly light a led on a
+* random SN74HC595 chip
+*/
 #include <tinysn74.h>
 #include <tinysn74_config.h>
 
-
-#define WDEL 5000 // delay after all LEDs are on, before starting over
-#define LDEL 100 // delay between lighting each LED
 
 uint8_t chp = 0; //chip array value
 uint8_t rnd = 0; //RNG value
@@ -106,13 +107,13 @@ void randlite() {
     }
   }
   if (wait==1){
-    delay(WDEL); // sit for 5 seconds
+    delay(2000); // sit for 5 seconds
   }
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
     randlite();
-  delay(LDEL); //wait 0.1 second between lighting LEDs 
+  delay(100); //wait 0.1 second between lighting LEDs 
 
 }
