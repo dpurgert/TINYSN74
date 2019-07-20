@@ -34,6 +34,7 @@ uint8_t i=0; //counter int
 
 void setup() {
   snInit(); //initialize the chip. 
+  srand(micros());//initialize our PRNG to micros();
 }
 
 
