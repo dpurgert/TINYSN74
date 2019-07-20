@@ -38,7 +38,7 @@ Pins currently undefined in the library are marked as "+++"
 
 |desc|pin|(PDIP/SOIC)|pin|desc|
 |----|---|---|---|----|
-|VCC|1|---|14|VCC|
+|VCC|1|---|14|GND|
 |+++ PB0|2|---|13|PA0 +++|
 |+++ PB1|3|---|12|PA1 +++|
 |RESET|4|---|11|PA2 +++|
