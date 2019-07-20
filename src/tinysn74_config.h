@@ -3,8 +3,7 @@
 *                 Program: Arduino SN74HC595 Library
 *                      by: Dan Purgert <dan@djph.net>    
 *               copyright: 2018
-*                 version: 0.5
-*                    date: Sun, 21 Jan 2018 13:11:24 -0500
+*                    date: Fri, 19 Jul 2019 19:27:13 -0400
 *                 purpose: Library for the SN74HC595 shift register, as
 *                        : it's readily available from suppliers
 *
@@ -58,10 +57,12 @@
 
 
 #define NUMSN74 1 // set to number of SN74 chips you're using.
-  /* GENERAL GUIDELINE, not 100% tested for long-term stability yet.  
-  *   - TINY25 = 4 chips max (4 bytes / 32 LEDs) - indefinite run
-  *   - TINY45 = 12 chips max (12 bytes / 96 LEDs) - 
-  *   - TINY85 = 28 chips max (28 bytes / 224 LEDs)
+
+  /* GENERAL GUIDELINE, based on RAM / program size.  I don't have
+  * enough LEDs (much less the SN74's) to test these out completely. 
+  *   - TINY24/25 = 65 chips max ( 520 LEDs). 2.6A @ 5mA / LED
+  *   - TINY44/45 = 160 chips max (1280 LEDs). 6.4A @ 5mA / LED         
+  *   - TINY84/85 = 360 chips (2880 LEDs). WARNING 14.4A @ 5mA / LED 
   *
   *  TODO - replace "NUMSN74" with a bank variable that allows us to set
   *  based on a word (16 bits) rather than just a byte. Easier maths for

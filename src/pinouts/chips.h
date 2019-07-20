@@ -3,8 +3,8 @@
 *                 Program: Arduino SN74CH595 Library
 *                      by: Dan Purgert <dan@djph.net>    
 *               copyright: 2018
-*                 version: 0.1
-*                    date: Mon, 08 Jan 2018 14:46:33 EDT
+*                 version: 0.6
+*                    date: Fri, 19 Jul 2019 19:27:13 -0400
 *                 purpose: Library for the SN74HC595 shift register, as
 *                        : it's readily available from suppliers
 *
@@ -79,36 +79,36 @@
 
 #if defined (__AVR_ATtiny25__) 
   #include "ATtinyx5.h"
-  #if NUMSN74 > 4
-    #error "Tiny25 only has sufficient RAM for 4 chips."
+  #if NUMSN74 > 65  //example uses 95B RAM (74%)
+    #error "Tiny25 only has sufficient RAM to drive 65 SN74HC595 chips."
   #endif
 #elif defined (__AVR_ATtiny45__) 
   #include "ATtinyx5.h"
-  #if NUMSN74 > 10
-    #error "Tiny45 only has sufficient RAM for 10 chips."
+  #if NUMSN74 > 160 //uses 190 Bytes
+    #error "Tiny45 only has sufficient RAM to drive 160 SN74HC595 chips."
   #endif
 #elif defined (__AVR_ATtiny85__) 
   #include "ATtinyx5.h"
-  #if NUMSN74 > 24
-    #error "Tiny85 only has sufficient RAM for 24 chips."
+  #if NUMSN74 > 350 //uses 380 bytes
+    #error "Tiny85 only has sufficient RAM to drive 350 SN74HC595 chips."
   #endif
-#if defined (__AVR_ATtiny24__) 
+#elif defined (__AVR_ATtiny24__) 
   #include "ATtinyx4.h"
-  #if NUMSN74 > 4
-    #error "Tiny24 only has sufficient RAM for 4 chips."
+  #if NUMSN74 > 65  //example uses 95B RAM (74%)
+    #error "Tiny24 only has sufficient RAM to drive 65 SN74HC595 chips."
   #endif
 #elif defined (__AVR_ATtiny44__) 
   #include "ATtinyx4.h"
-  #if NUMSN74 > 10
-    #error "Tiny44 only has sufficient RAM for 10 chips."
+  #if NUMSN74 > 160 //uses 190 Bytes
+    #error "Tiny44 only has sufficient RAM to drive 160 SN74HC595 chips."
   #endif
 #elif defined (__AVR_ATtiny84__) 
   #include "ATtinyx4.h"
-  #if NUMSN74 > 24
-    #error "Tiny85 only has sufficient RAM for 24 chips."
+  #if NUMSN74 > 350 //uses 380 bytes
+    #error "Tiny84 only has sufficient RAM to drive 350 SN74HC595 chips."
   #endif
 #else
   #error "Unknown Chip!"
 #endif
 
-#endif
+#endif //ifndef CHIP_INC_H

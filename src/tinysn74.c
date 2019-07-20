@@ -3,7 +3,8 @@
 *                 Program: SN74HC595 Library - sn74.c
 *                      by: Dan Purgert <dan@djph.net>    
 *               copyright: 2018
-*                 version: 0.1
+*                 version: 0.6
+*                    date: Fri, 19 Jul 2019 19:27:13 -0400
 *                 purpose: Library for the SN74HC595 shift register, as
 *                        : it's readily available from suppliers
 *

@@ -7,8 +7,8 @@ Communication is currently bit-banging, with SPI in the works.
 ## Details
 - Current version: 0.0.1
 - Supports:
-..- ATTinyx5 (25/45/85)
-..- ATTinyx4 (24/44/84) - only minimally tested.
+  - ATTinyx5 (25/45/85)
+  - ATTinyx4 (24/44/84) - only minimally tested.
 
 ## Pinouts
 
@@ -18,7 +18,7 @@ Default pinout for the ATTiny 25/45/85 series.  Note that MISO is
 required if setting SPI Mode.  Considering modifying the lib to also
 allow CLR to be an optional pin.
 
-|desc|pin|---|pin|desc|
+|desc|pin|(PDIP/SOIC)|pin|desc|
 |----|---|---|---|----|
 |RESET|1|---|8|VCC|
 |CLR - PB3|2|---|7|PB2 - CLK|
@@ -36,7 +36,7 @@ V0.0.1 Initial test pinout
 Pins currently undefined in the library are marked as "+++" 
 
 
-|desc|pin|---|pin|desc|
+|desc|pin|(PDIP/SOIC)|pin|desc|
 |----|---|---|---|----|
 |VCC|1|---|14|VCC|
 |+++ PB0|2|---|13|PA0 +++|

@@ -3,8 +3,8 @@
 *                 Program: Arduino SN74CH595 Library
 *                      by: Dan Purgert <dan@djph.net>    
 *               copyright: 2018
-*                 version: 0.1
-*                    date: Mon, 08 Jan 2018 14:46:33 EDT
+*                 version: 0.6
+*                    date: Fri, 19 Jul 2019 19:27:13 -0400
 *                 purpose: Library for the SN74HC595 shift register, as
 *                        : it's readily available from suppliers
 *
