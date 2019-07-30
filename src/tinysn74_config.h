@@ -25,6 +25,13 @@
 *  02110-1301, USA.
 ***********************************************************************/
 
+/**
+ * @file
+ * @brief Master configuration file for the tinysn74 library.
+ *
+ * This file holds the (mostly) static definitions used in the rest of
+ * the library. 
+*/
 #ifndef SN74_CONFIG_H
 #define SN74_CONFIG_H
 
@@ -39,51 +46,50 @@
 /***********************************************************************
 *                        USER OPTIONS
 ************************************************************************
-*      These user-definable options are to customize the library
-*      to your specific needs.  Options
+* These two options are the "basic" options that most users of the
+* library will (hopefully) ever have need to change.  See "Chip Options"
+* section below if you do need to change pinouts.
+
+*  - NUMSN74 -- number of SN74HC595 units daisy-chained together. NOTE
+*  that the datasheets do not indicate a maximum number that one can
+*  daisy-chain.
 *
-*        - NUMSN74 -- number of SN74HC595 units daisy-chained together.
-*        NOTE that the datasheets do not indicate a maximum number that
-*        one can daisy-chain.  
-*
-*        - DATA_XFER_MOD -- Data transfer mode, SPI (default), or
-*        bit-banging.
+*  - SN74OE -- select whether the microcontroller will or will not be in
+*  control of the OE pin (default NO).
 *        
-*        Pin Mapping:
-*          - ATTiny 25/45/85 Digital Pins 1-6  == PORTB, PB0-5 
-*           - PB5 / pin1 = RESET --- DO NOT TOUCH
-*          
 ***********************************************************************/
 
-
-#define NUMSN74 2 // set to number of SN74 chips you're using.
+#define NUMSN74 2 
 
   /* GENERAL GUIDELINE, based on RAM / program size.  I don't have
   * enough LEDs (much less the SN74's) to test these out completely. 
   *   - TINY24/25 = 65 chips max ( 520 LEDs). 2.6A @ 5mA / LED
   *   - TINY44/45 = 160 chips max (1280 LEDs). 6.4A @ 5mA / LED         
-  *   - TINY84/85 = 360 chips (2880 LEDs). WARNING 14.4A @ 5mA / LED 
+  *   - TINY84/85 = 360 chips (2880 LEDs).  REQUIRES ADD'L CHANGES TO
+  *   tinysn74.h AND tinysn74.c to accommodate >255 chips.
   *
   *  TODO - replace "NUMSN74" with a bank variable that allows us to set
   *  based on a word (16 bits) rather than just a byte. Easier maths for
   *  all!
   */
 
-
 #define SN74OE	0
 
 
+/***********************************************************************
+*                         CHIP OPTIONS
+************************************************************************
+* 
+* These options are for more "advanced" configurations where the default
+* pinout (or data transfer mode) does not fit your use case.  
+*
+***********************************************************************/
 /* switch this to 'SN74_SPI' for SPI mode */
 #define DATA_XFER_MOD SN74_BANG 
 
 /* Include chip pinouts.  Has to know XFER Mode, so can't include til
  * now. */
 #include "pinouts/chips.h"
-
-/*not sure if these are necessary ...? 
-#define PWM_PERIOD 8192
-#define CLK_PERIOD 3
-*/
 
 /* Serial Digital in to  SN74 pin 14*/
 #define DOT_PIN   DEF_MOSI_PIN
@@ -95,16 +101,6 @@
 #define CLK_PORT  DEF_CLK_PORT
 #define CLK_DDR   DEF_CLK_DDR
 
-
-
-
-
-/***********************************************************************
-*                          END USER OPTIONS
-************************************************************************
-*
-*                 Don't change anything after here.
-***********************************************************************/
 
 /* Output Enable to SN74HC595 pin 13 */
 //only valid for bitbang mode.

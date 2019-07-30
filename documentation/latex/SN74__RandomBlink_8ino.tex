@@ -1,0 +1,167 @@
+\hypertarget{SN74__RandomBlink_8ino}{}\section{examples/\+S\+N74\+\_\+\+Random\+Blink/\+S\+N74\+\_\+\+Random\+Blink.ino File Reference}
+\label{SN74__RandomBlink_8ino}\index{examples/\+S\+N74\+\_\+\+Random\+Blink/\+S\+N74\+\_\+\+Random\+Blink.\+ino@{examples/\+S\+N74\+\_\+\+Random\+Blink/\+S\+N74\+\_\+\+Random\+Blink.\+ino}}
+
+
+A more involved example.  
+
+
+{\ttfamily \#include $<$tinysn74.\+h$>$}\newline
+Include dependency graph for S\+N74\+\_\+\+Random\+Blink.\+ino\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=239pt]{SN74__RandomBlink_8ino__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{SN74__RandomBlink_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup} ()
+\begin{DoxyCompactList}\small\item\em Program initialization. \end{DoxyCompactList}\item 
+void \hyperlink{SN74__RandomBlink_8ino_a9069fa50959f53362dad0f5038f45d60}{randlite} ()
+\begin{DoxyCompactList}\small\item\em Randomly select the chip and pin to change state. \end{DoxyCompactList}\item 
+void \hyperlink{SN74__RandomBlink_8ino_afe461d27b9c48d5921c00d521181f12f}{loop} ()
+\begin{DoxyCompactList}\small\item\em Main program loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint8\+\_\+t \hyperlink{SN74__RandomBlink_8ino_aab45faad5b835d77a869fca4747ab75d}{chp} = 0
+\begin{DoxyCompactList}\small\item\em Chip select value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{SN74__RandomBlink_8ino_ad1a4ecf3125fbcc9447f70f7361f2fb0}{rnd} = 0
+\begin{DoxyCompactList}\small\item\em R\+NG value. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{SN74__RandomBlink_8ino_a4bc5cfe94d996891a734c6c645f44e45}{chip} \mbox{[}N\+U\+M\+S\+N74\mbox{]}
+\begin{DoxyCompactList}\small\item\em Chip array. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{SN74__RandomBlink_8ino_a74fac0365dddec359ec40da99dde9d8a}{pina} \mbox{[}8\mbox{]} =\{0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80\}
+\begin{DoxyCompactList}\small\item\em Integer to pin conversion. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{SN74__RandomBlink_8ino_a6dc166123fed68e9b34a2512623163e0}{on} = 1
+\begin{DoxyCompactList}\small\item\em Indicator for enabling outputs. \end{DoxyCompactList}\item 
+int \hyperlink{SN74__RandomBlink_8ino_aaefdb10b18059f3c08332338630b3f68}{wait} =0
+\begin{DoxyCompactList}\small\item\em Indicate loop should delay. \end{DoxyCompactList}\item 
+uint8\+\_\+t \hyperlink{SN74__RandomBlink_8ino_af27e3188294c2df66d975b74a09c001d}{i} =0
+\begin{DoxyCompactList}\small\item\em Counter for walking the chip array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A more involved example. 
+
+This example sketch shows how this library can be utilized to create complex effects. In this case, we\textquotesingle{}re selecting a random pin on a random chip to light. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{SN74__RandomBlink_8ino_afe461d27b9c48d5921c00d521181f12f}\label{SN74__RandomBlink_8ino_afe461d27b9c48d5921c00d521181f12f}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!loop@{loop}}
+\index{loop@{loop}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Main program loop. 
+
+Infinite loop to continually call \hyperlink{SN74__RandomBlink_8ino_a9069fa50959f53362dad0f5038f45d60}{randlite()}, and wait 100 ms after every execution. \mbox{\Hypertarget{SN74__RandomBlink_8ino_a9069fa50959f53362dad0f5038f45d60}\label{SN74__RandomBlink_8ino_a9069fa50959f53362dad0f5038f45d60}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!randlite@{randlite}}
+\index{randlite@{randlite}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{randlite()}{randlite()}}
+{\footnotesize\ttfamily void randlite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Randomly select the chip and pin to change state. 
+
+Provided that N\+U\+M\+S\+N74 $>$1, this will randomly select a pin and chip from their respective arrays, and set the output state accordingly. Once the data is shifted out and latched in, the function determines if the whole array\textquotesingle{}s outputs are logic high or logic low, in order to determine if the other cycle should be started. \mbox{\Hypertarget{SN74__RandomBlink_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{SN74__RandomBlink_8ino_a4fc01d736fe50cf5b977f755b675f11d}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!setup@{setup}}
+\index{setup@{setup}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Program initialization. 
+
+Runs once at power on or microcontroller reset. Calls \hyperlink{tinysn74_8c_a75d55e672f3f4dd06cd0c73479f64ade}{sn\+Init()} and seeds the P\+R\+NG with the number of microseconds since the chip (re) booted. 
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{SN74__RandomBlink_8ino_a4bc5cfe94d996891a734c6c645f44e45}\label{SN74__RandomBlink_8ino_a4bc5cfe94d996891a734c6c645f44e45}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!chip@{chip}}
+\index{chip@{chip}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{chip}{chip}}
+{\footnotesize\ttfamily uint8\+\_\+t chip\mbox{[}N\+U\+M\+S\+N74\mbox{]}}
+
+
+
+Chip array. 
+
+8-\/bit unsigned integer array holds the values for the pin(s) that are active on any one chip.
+
+Array is in \char`\"{}most significant chip first\char`\"{} order -- that is, chip\mbox{[}0\mbox{]} is the S\+N74\+H\+C595 chip that is farthest away. chip\mbox{[}N\+U\+M\+S\+N74-\/1\mbox{]} is the chip directly connected to M\+O\+SI \mbox{\Hypertarget{SN74__RandomBlink_8ino_aab45faad5b835d77a869fca4747ab75d}\label{SN74__RandomBlink_8ino_aab45faad5b835d77a869fca4747ab75d}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!chp@{chp}}
+\index{chp@{chp}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{chp}{chp}}
+{\footnotesize\ttfamily uint8\+\_\+t chp = 0}
+
+
+
+Chip select value. 
+
+uint8\+\_\+t as 255 is more than a Tiny2x or 4x chip can run; so this saves a bit of R\+AM. Change to uint16\+\_\+t if you\textquotesingle{}re using a Tiny8x and want to run more than 255 S\+N74\+H\+C595 \mbox{\Hypertarget{SN74__RandomBlink_8ino_af27e3188294c2df66d975b74a09c001d}\label{SN74__RandomBlink_8ino_af27e3188294c2df66d975b74a09c001d}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!i@{i}}
+\index{i@{i}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily uint8\+\_\+t i =0}
+
+
+
+Counter for walking the chip array. 
+
+Set to uint8\+\_\+t, as Tiny2x/4x will never exceed 255 S\+N74 chips; so this saves some R\+AM. Change to uint16\+\_\+t for a tiny8x if you choose to use more than 255 chips. \mbox{\Hypertarget{SN74__RandomBlink_8ino_a6dc166123fed68e9b34a2512623163e0}\label{SN74__RandomBlink_8ino_a6dc166123fed68e9b34a2512623163e0}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!on@{on}}
+\index{on@{on}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{on}{on}}
+{\footnotesize\ttfamily uint8\+\_\+t on = 1}
+
+
+
+Indicator for enabling outputs. 
+
+When 1, the output selected in this run will be set logic high. When 0, output will be set to logic low. \mbox{\Hypertarget{SN74__RandomBlink_8ino_a74fac0365dddec359ec40da99dde9d8a}\label{SN74__RandomBlink_8ino_a74fac0365dddec359ec40da99dde9d8a}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!pina@{pina}}
+\index{pina@{pina}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{pina}{pina}}
+{\footnotesize\ttfamily uint8\+\_\+t pina\mbox{[}8\mbox{]} =\{0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80\}}
+
+
+
+Integer to pin conversion. 
+
+If we just used a value 0-\/255, we\textquotesingle{}d get however many pins lit, corresponding to the decimal -\/$>$ binary conversion of a random number. That is, if we fed chip\mbox{[}n\mbox{]} a value of 133, pins 8, 3, and 1 would light (corresponding to 128 + 4 + 1), and that\textquotesingle{}s not what we want.
+
+Array\+Value = Hex (decimal)
+\begin{DoxyItemize}
+\item \mbox{[}0\mbox{]} = 0x01 (1)
+\item \mbox{[}1\mbox{]} = 0x02 (2)
+\item \mbox{[}2\mbox{]} = 0x04 (4)
+\item \mbox{[}3\mbox{]} = 0x08 (8)
+\item \mbox{[}4\mbox{]} = 0x10 (16)
+\item \mbox{[}5\mbox{]} = 0x20 (32)
+\item \mbox{[}6\mbox{]} = 0x40 (64)
+\item \mbox{[}7\mbox{]} = 0x80 (128) 
+\end{DoxyItemize}\mbox{\Hypertarget{SN74__RandomBlink_8ino_ad1a4ecf3125fbcc9447f70f7361f2fb0}\label{SN74__RandomBlink_8ino_ad1a4ecf3125fbcc9447f70f7361f2fb0}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!rnd@{rnd}}
+\index{rnd@{rnd}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{rnd}{rnd}}
+{\footnotesize\ttfamily uint8\+\_\+t rnd = 0}
+
+
+
+R\+NG value. 
+
+Value for the pin we\textquotesingle{}re going to light \mbox{\Hypertarget{SN74__RandomBlink_8ino_aaefdb10b18059f3c08332338630b3f68}\label{SN74__RandomBlink_8ino_aaefdb10b18059f3c08332338630b3f68}} 
+\index{S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}!wait@{wait}}
+\index{wait@{wait}!S\+N74\+\_\+\+Random\+Blink.\+ino@{S\+N74\+\_\+\+Random\+Blink.\+ino}}
+\subsubsection{\texorpdfstring{wait}{wait}}
+{\footnotesize\ttfamily int wait =0}
+
+
+
+Indicate loop should delay. 
+
+When 1, loop will delay for N seconds (default 5) before switching state. That is, if all the outputs just finished going logic high, wait before setting random outputs to logic low (or vice-\/versa). 

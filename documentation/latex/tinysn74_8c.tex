@@ -1,0 +1,176 @@
+\hypertarget{tinysn74_8c}{}\section{src/tinysn74.c File Reference}
+\label{tinysn74_8c}\index{src/tinysn74.\+c@{src/tinysn74.\+c}}
+
+
+Library to drive S\+N74\+H\+C595 chips with A\+T\+Tiny microcontrollers.  
+
+
+{\ttfamily \#include $<$avr/interrupt.\+h$>$}\newline
+{\ttfamily \#include $<$util/delay.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}tinysn74\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}tinysn74.\+h\char`\"{}}\newline
+Include dependency graph for tinysn74.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tinysn74_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tinysn74_8c_ad72dbcf6d0153db1b8d8a58001feed83}{D\+E\+B\+UG}~1
+\begin{DoxyCompactList}\small\item\em A\+VR Interrupt Library. \end{DoxyCompactList}\item 
+\#define \hyperlink{tinysn74_8c_a4330aeed1c9cef86f25a77fc7d5c28e6}{pulse}(port,  pin)~port $\vert$= \+\_\+\+BV(pin); port \&= $\sim$\+\_\+\+BV(pin);
+\begin{DoxyCompactList}\small\item\em sends a pulse to the pin (i.\+e. set logic high, then low) \end{DoxyCompactList}\item 
+\#define \hyperlink{tinysn74_8c_aa8f7441d0691c9e378f74be062aa73e1}{hi}(port,  pin)~port $\vert$= \+\_\+\+BV(pin);
+\begin{DoxyCompactList}\small\item\em pulls a pin logic high \end{DoxyCompactList}\item 
+\#define \hyperlink{tinysn74_8c_a2bd7cc1ea865db8275b9528b3dbb5793}{lo}(port,  pin)~port \&= $\sim$\+\_\+\+BV(pin);
+\begin{DoxyCompactList}\small\item\em pulls a pin logic low \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tinysn74_8c_a75d55e672f3f4dd06cd0c73479f64ade}{sn\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the library. \end{DoxyCompactList}\item 
+void \hyperlink{tinysn74_8c_ad06bf9aab33483c64594a58e072279fe}{sn\+C\+LR} (void)
+\begin{DoxyCompactList}\small\item\em Clear the output register. \end{DoxyCompactList}\item 
+void \hyperlink{tinysn74_8c_ace8f256b6c1b7e959f1d486b8796cb58}{sn\+OE} (uint8\+\_\+t off)
+\begin{DoxyCompactList}\small\item\em Enable / disable S\+N74 outputs. \end{DoxyCompactList}\item 
+void \hyperlink{tinysn74_8c_ac9f372294bcbd3d976f30953e2aaeb1b}{sn\+Shift\+Init} (void)
+\begin{DoxyCompactList}\small\item\em Initializes the shifting logic. \end{DoxyCompactList}\item 
+void \hyperlink{tinysn74_8c_aedfd23cb2c8f35f1fd274ad3d9395ad8}{sn\+Shift} (uint8\+\_\+t $\ast$b)
+\begin{DoxyCompactList}\small\item\em Shifting logic to get data from the micro to the shift registers. \end{DoxyCompactList}\item 
+void \hyperlink{tinysn74_8c_ae57a50787422eaee268c496d51f8dc00}{sn\+Lat} (void)
+\begin{DoxyCompactList}\small\item\em Latcn data from S\+N74\textquotesingle{}s internal shift register to the output. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Library to drive S\+N74\+H\+C595 chips with A\+T\+Tiny microcontrollers. 
+
+This library provides the necessary hooks for you to control Texas Instruments S\+N74\+H\+C595 shift registers (or equivalent). 
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{tinysn74_8c_ad72dbcf6d0153db1b8d8a58001feed83}\label{tinysn74_8c_ad72dbcf6d0153db1b8d8a58001feed83}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!D\+E\+B\+UG@{D\+E\+B\+UG}}
+\index{D\+E\+B\+UG@{D\+E\+B\+UG}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{D\+E\+B\+UG}{DEBUG}}
+{\footnotesize\ttfamily \#define D\+E\+B\+UG~1}
+
+
+
+A\+VR Interrupt Library. 
+
+A\+VR IO Library\+For \+\_\+delay\+\_\+ms() Library configuration file Library headers D\+E\+B\+UG = 1 for debugging / slowing things down \mbox{\Hypertarget{tinysn74_8c_aa8f7441d0691c9e378f74be062aa73e1}\label{tinysn74_8c_aa8f7441d0691c9e378f74be062aa73e1}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!hi@{hi}}
+\index{hi@{hi}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{hi}{hi}}
+{\footnotesize\ttfamily \#define hi(\begin{DoxyParamCaption}\item[{}]{port,  }\item[{}]{pin }\end{DoxyParamCaption})~port $\vert$= \+\_\+\+BV(pin);}
+
+
+
+pulls a pin logic high 
+
+\mbox{\Hypertarget{tinysn74_8c_a2bd7cc1ea865db8275b9528b3dbb5793}\label{tinysn74_8c_a2bd7cc1ea865db8275b9528b3dbb5793}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!lo@{lo}}
+\index{lo@{lo}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{lo}{lo}}
+{\footnotesize\ttfamily \#define lo(\begin{DoxyParamCaption}\item[{}]{port,  }\item[{}]{pin }\end{DoxyParamCaption})~port \&= $\sim$\+\_\+\+BV(pin);}
+
+
+
+pulls a pin logic low 
+
+\mbox{\Hypertarget{tinysn74_8c_a4330aeed1c9cef86f25a77fc7d5c28e6}\label{tinysn74_8c_a4330aeed1c9cef86f25a77fc7d5c28e6}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!pulse@{pulse}}
+\index{pulse@{pulse}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{pulse}{pulse}}
+{\footnotesize\ttfamily \#define pulse(\begin{DoxyParamCaption}\item[{}]{port,  }\item[{}]{pin }\end{DoxyParamCaption})~port $\vert$= \+\_\+\+BV(pin); port \&= $\sim$\+\_\+\+BV(pin);}
+
+
+
+sends a pulse to the pin (i.\+e. set logic high, then low) 
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{tinysn74_8c_ad06bf9aab33483c64594a58e072279fe}\label{tinysn74_8c_ad06bf9aab33483c64594a58e072279fe}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!sn\+C\+LR@{sn\+C\+LR}}
+\index{sn\+C\+LR@{sn\+C\+LR}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{sn\+C\+L\+R()}{snCLR()}}
+{\footnotesize\ttfamily void sn\+C\+LR (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Clear the output register. 
+
+This function will clear all outputs of the connected S\+N74 chips, without having to shift in N bytes of 0x00 \mbox{\Hypertarget{tinysn74_8c_a75d55e672f3f4dd06cd0c73479f64ade}\label{tinysn74_8c_a75d55e672f3f4dd06cd0c73479f64ade}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!sn\+Init@{sn\+Init}}
+\index{sn\+Init@{sn\+Init}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{sn\+Init()}{snInit()}}
+{\footnotesize\ttfamily void sn\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the library. 
+
+This function sets up the ports / pins of the A\+T\+T\+I\+NY to output, and clears the output registers of the connected shift register(s). \mbox{\Hypertarget{tinysn74_8c_ae57a50787422eaee268c496d51f8dc00}\label{tinysn74_8c_ae57a50787422eaee268c496d51f8dc00}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!sn\+Lat@{sn\+Lat}}
+\index{sn\+Lat@{sn\+Lat}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{sn\+Lat()}{snLat()}}
+{\footnotesize\ttfamily void sn\+Lat (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Latcn data from S\+N74\textquotesingle{}s internal shift register to the output. 
+
+This function is what actually sets the output pins to the value contained in the input shift register. Without calling this, the pins will never go logic high (or logic low). \mbox{\Hypertarget{tinysn74_8c_ace8f256b6c1b7e959f1d486b8796cb58}\label{tinysn74_8c_ace8f256b6c1b7e959f1d486b8796cb58}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!sn\+OE@{sn\+OE}}
+\index{sn\+OE@{sn\+OE}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{sn\+O\+E()}{snOE()}}
+{\footnotesize\ttfamily void sn\+OE (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{off }\end{DoxyParamCaption})}
+
+
+
+Enable / disable S\+N74 outputs. 
+
+If the sn\+OE option is enabled (see tinysn47\+\_\+config.\+h), this function will allow you to enable or disable the output register.
+
+Note that when disabled, the output register retains its previous value -\/ the pins are simply put into high-\/impedance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em off} & uint8\+\_\+t value to pass a \textquotesingle{}0\textquotesingle{} or \textquotesingle{}1\textquotesingle{}. As the chip uses logic low, setting off to \textquotesingle{}0\textquotesingle{} will E\+N\+A\+B\+LE the output register. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{tinysn74_8c_aedfd23cb2c8f35f1fd274ad3d9395ad8}\label{tinysn74_8c_aedfd23cb2c8f35f1fd274ad3d9395ad8}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!sn\+Shift@{sn\+Shift}}
+\index{sn\+Shift@{sn\+Shift}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{sn\+Shift()}{snShift()}}
+{\footnotesize\ttfamily void sn\+Shift (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{b }\end{DoxyParamCaption})}
+
+
+
+Shifting logic to get data from the micro to the shift registers. 
+
+This function comes in two (2) forms, determined by your selection of D\+A\+T\+A\+\_\+\+X\+F\+E\+R\+\_\+\+M\+OD in \hyperlink{tinysn74__config_8h}{tinysn74\+\_\+config.\+h}.
+
+In bitbang mode (default), the function utilizes a for loop to iterate over the array of chip data. In S\+PI mode, the S\+PI output register and timers are utilized to iterate over the data.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$b} & is the pointer to the chip array. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{tinysn74_8c_ac9f372294bcbd3d976f30953e2aaeb1b}\label{tinysn74_8c_ac9f372294bcbd3d976f30953e2aaeb1b}} 
+\index{tinysn74.\+c@{tinysn74.\+c}!sn\+Shift\+Init@{sn\+Shift\+Init}}
+\index{sn\+Shift\+Init@{sn\+Shift\+Init}!tinysn74.\+c@{tinysn74.\+c}}
+\subsubsection{\texorpdfstring{sn\+Shift\+Init()}{snShiftInit()}}
+{\footnotesize\ttfamily void sn\+Shift\+Init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the shifting logic. 
+
+This function comes in two (2) forms, determined by your selection of D\+A\+T\+A\+\_\+\+X\+F\+E\+R\+\_\+\+M\+OD in \hyperlink{tinysn74__config_8h}{tinysn74\+\_\+config.\+h}.
+
+In bitbang mode (default); the function merely sets pins; whereas in S\+PI mode, the function will also initialize the timers and S\+PI \char`\"{}baudrate\char`\"{}. 

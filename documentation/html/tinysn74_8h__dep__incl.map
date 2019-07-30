@@ -1,0 +1,5 @@
+<map id="src/tinysn74.h" name="src/tinysn74.h">
+<area shape="rect" id="node2" href="$SN74__Count_8ino.html" title="This short example counts from 0 to 255. " alt="" coords="5,80,163,121"/>
+<area shape="rect" id="node3" href="$SN74__RandomBlink_8ino.html" title="A more involved example. " alt="" coords="187,80,387,121"/>
+<area shape="rect" id="node4" href="$tinysn74_8c.html" title="Library to drive SN74HC595 chips with ATTiny microcontrollers. " alt="" coords="411,87,515,114"/>
+</map>

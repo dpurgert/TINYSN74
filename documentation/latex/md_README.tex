@@ -1,0 +1,116 @@
+Library for Texas Instruments S\+N74\+H\+C595 Shift Registers (and clones), for use with A\+T\+T\+I\+NY chips.
+
+Communication is currently bit-\/banging, with S\+PI in the works.
+
+\subsection*{Usage}
+
+Clone the repository into the \char`\"{}libraries\char`\"{} directory in your arduino installation directory.
+
+The library includes two (2) header files\+:
+\begin{DoxyItemize}
+\item \hyperlink{tinysn74_8h}{tinysn74.\+h}
+\item \hyperlink{tinysn74__config_8h}{tinysn74\+\_\+config.\+h}
+\end{DoxyItemize}
+
+The library provides several functions\+:
+\begin{DoxyItemize}
+\item sn\+Init -- This is called from within you sketch \hyperlink{SN74__Count_8ino_a4fc01d736fe50cf5b977f755b675f11d}{setup()} function
+\item sn\+Shift (byte b$\ast$) -- This shifts the data out, requires an array to be passed in
+\item sn\+Lat -- Latch shifted data to the output pins
+\item sn\+Clr -- Clear the outputs
+\item sn\+OE -- (Optional) Must be enabled in tinysn74\+\_\+config, allows triggering the output enable pin from within your program
+\end{DoxyItemize}
+
+\subsection*{Details}
+
+
+\begin{DoxyItemize}
+\item Current version\+: 0.\+6.\+0
+\item Supports\+:
+\begin{DoxyItemize}
+\item A\+T\+Tinyx5 (25/45/85)
+\item A\+T\+Tinyx4 (24/44/84) -\/ only minimally tested.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsection*{Pinouts}
+
+\subsubsection*{S\+N74\+H\+C595}
+
+Reference pinout of a S\+N75\+H\+C595 shift register.
+
+Output H\textquotesingle{} is the \char`\"{}carry forward\char`\"{}. Use this to daisy-\/chain.
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ desc}&\textbf{ pin}&\textbf{ (P\+D\+I\+P/\+S\+O\+IC)}&\textbf{ pin}&\textbf{ desc  }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ desc}&\textbf{ pin}&\textbf{ (P\+D\+I\+P/\+S\+O\+IC)}&\textbf{ pin}&\textbf{ desc  }\\\cline{1-5}
+\endhead
+Out B&1&---&16&V\+CC \\\cline{1-5}
+Out C&2&---&15&Out A \\\cline{1-5}
+Out D&3&---&14&Data In \\\cline{1-5}
+Out E&4&---&13&OE \\\cline{1-5}
+Out F&5&---&12&Latch \\\cline{1-5}
+Out G&6&---&11&C\+LK \\\cline{1-5}
+Out H&7&---&10&C\+LR \\\cline{1-5}
+G\+ND&8&---&9&Out H\textquotesingle{} \\\cline{1-5}
+\end{longtabu}
+\subsubsection*{A\+T\+Tiny x5}
+
+Default pinout for the A\+T\+Tiny 25/45/85 series. Note that M\+I\+SO is required if setting S\+PI Mode. Considering modifying the lib to also allow C\+LR to be an optional pin.
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ desc}&\textbf{ pin}&\textbf{ (P\+D\+I\+P/\+S\+O\+IC)}&\textbf{ pin}&\textbf{ desc  }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ desc}&\textbf{ pin}&\textbf{ (P\+D\+I\+P/\+S\+O\+IC)}&\textbf{ pin}&\textbf{ desc  }\\\cline{1-5}
+\endhead
+R\+E\+S\+ET&1&---&8&V\+CC \\\cline{1-5}
+C\+LR -\/ P\+B3&2&---&7&P\+B2 -\/ C\+LK \\\cline{1-5}
+L\+AT -\/ P\+B4&3&---&6&P\+B1 -\/ M\+I\+SO \\\cline{1-5}
+G\+ND&4&---&5&P\+B0 -\/ M\+O\+SI \\\cline{1-5}
+\end{longtabu}
+
+
+\subsubsection*{A\+T\+Tiny x4}
+
+Default pinout for the A\+T\+Tiny 24/44/84 series. Note that M\+I\+SO is required if setting S\+PI Mode.
+
+V0.\+0.\+1 Initial test pinout
+
+Pins currently undefined in the library are marked as \char`\"{}+++\char`\"{}
+
+\tabulinesep=1mm
+\begin{longtabu} spread 0pt [c]{*{5}{|X[-1]}|}
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ desc}&\textbf{ pin}&\textbf{ (P\+D\+I\+P/\+S\+O\+IC)}&\textbf{ pin}&\textbf{ desc  }\\\cline{1-5}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\rowcolor{\tableheadbgcolor}\textbf{ desc}&\textbf{ pin}&\textbf{ (P\+D\+I\+P/\+S\+O\+IC)}&\textbf{ pin}&\textbf{ desc  }\\\cline{1-5}
+\endhead
+V\+CC&1&---&14&G\+ND \\\cline{1-5}
++++ P\+B0&2&---&13&P\+A0 +++ \\\cline{1-5}
++++ P\+B1&3&---&12&P\+A1 +++ \\\cline{1-5}
+R\+E\+S\+ET&4&---&11&P\+A2 +++ \\\cline{1-5}
++++ P\+B2&5&---&10&P\+A3 -\/ C\+LR \\\cline{1-5}
+L\+AT -\/ P\+A7&6&---&9&P\+A4 -\/ C\+LK \\\cline{1-5}
+M\+O\+SI -\/ P\+A6&7&---&8&P\+A5 -\/ M\+I\+SO \\\cline{1-5}
+\end{longtabu}
+\subsection*{Attribution}
+
+Lots of influence from lots of places, mainly the sparkfun repo for the T\+L\+C5940 driver. Thanks to one and all for sharing your solutions.
+
+\subsection*{Changelog}
+
+0.\+6.\+0 -\/ Added example sketch, fixed math errors causing the library to eat significantly more R\+AM than necessary. 

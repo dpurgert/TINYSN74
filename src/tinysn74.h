@@ -26,58 +26,31 @@
 *  02110-1301, USA.
 ***********************************************************************/
 
+/** 
+ * @file
+ *
+*/
+
 #ifndef SN74_H
 #define SN74_H
 
-#include <stdint.h>
+//#include <stdint.h>
 #include "tinysn74_config.h"
 
 #ifdef __cplusplus 
 extern "C" {
 #endif
 
-/* Latch pulse setup.  Apparently required for when using separate pins
- * for latch (RCLK) and clock (SRCLK) clocking.
- * 
- * Commenting out for now because I have no idea if this is actually
- * necessary on the Tinies after reading other ATTinyx5 SPI libraries.
-*/
-/** Enable Timer1 Overflow interrupt, which fires after a LAT pulse; and 
-    disable any Timer1 interrupts. */
-//#define setLATinterrupt()    TIFR1 |= _BV(TOV1); TIMSK = _BV(TOIE1)
-//#define clearLATinterrupt() TIMSK = 0
-
-/** Enables Latch pulses */
-//#define enableLATpulse()    TCCR0A = _BV(COM1A1) | _BV(COM1B1)
-
-/** Disables latch pulses */
-//#define disableLATpulse() TCCR0A = _BV(COM1B1)
-
-// snInit - Initialize basic pins, etc. for communication.
 void snInit (void);
 
-//snCLR - clear the output register of the SN74 chip(s)
 void snCLR (void);
 
-//snOE - OPTIONAL function to enable / disable outputs on the SN chips.
-// inverse logic, so setting to '1' = off. If you don't like it,
-// complain to TI :)
 void snOE (uint8_t off); 
 
-//snShiftInit - Initialize the actual shifting.
-//not 100% necessary to break it out of snInit - but it got hard to read
-//with the bitbang vs. SPI code.  
 void snShiftInit (void);
 
-/*snShift - perform the data shift out to the SN chips.
-*  *b - pointer to a byte array that holds the data we're outputting.
-*  Normally we'd need to know the length too, but that's handled by
-*  NUMSN74 in tinysn74_config.h
-*/
 void snShift (uint8_t *b);
 
-// snLat - trigger a latch pulse.  This kicks the data from the serial
-// input register out to the "storage register" (i.e. the pins)
 void snLat (void);
 
 #ifdef __cplusplus

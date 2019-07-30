@@ -26,24 +26,44 @@
 *  02110-1301, USA.
 ***********************************************************************/
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h> // for _delay_ms ();
+/**
+ * @file
+ * @brief Library to drive SN74HC595 chips with ATTiny microcontrollers.
+ *
+ * This library provides the necessary hooks for you to control Texas
+ * Instruments SN74HC595 shift registers (or equivalent).
+*/
 
+/** AVR IO Library */
+//#include <avr/io.h>
+/** @brief AVR Interrupt Library */
+#include <avr/interrupt.h>
+/** @brief For _delay_ms() */
+#include <util/delay.h>
+
+/** @brief Library configuration file */
 #include "tinysn74_config.h"
+/** @brief Library headers */
 #include "tinysn74.h"
 
-//DEBUG = 1 for debugging / slowing things down
+/** @brief DEBUG = 1 for debugging / slowing things down */
 #define DEBUG 1
 
 
-// send a pulse (hi, then low) to the pin.
+/** @brief sends a pulse to the pin (i.e. set logic high, then low)*/
 #define pulse(port,pin) port |= _BV(pin); port &= ~_BV(pin);
 
-// pull a pin high or low
+/** @brief pulls a pin logic high */
 #define hi(port,pin) port |= _BV(pin);
+/** @brief pulls a pin logic low */
 #define lo(port,pin) port &= ~_BV(pin);
 
+/** 
+ * @brief Initializes the library.
+ *
+ * This function sets up the ports / pins of the ATTINY to output, and
+ * clears the output registers of the connected shift register(s).
+*/
 void snInit (void)
 {
   /* setup pins 
@@ -62,12 +82,16 @@ void snInit (void)
   #endif
 }
 
+/**
+ * @brief Clear the output register.
+ * 
+ * This function will clear all outputs of the connected SN74 chips,
+ * without having to shift in N bytes of 0x00
+*/
 void snCLR (void)
 {
-  //clear all serial data, i think 
   #if DEBUG == 1
     // slow things down so we can see the pins go high with a LED
-    // I really need to get an o-scope
     lo(CLR_PORT,CLR_PIN);
     hi (CLK_PORT,CLK_PIN);
     _delay_ms (100);
@@ -83,10 +107,21 @@ void snCLR (void)
     hi(CLR_PORT,CLR_PIN);
   #endif 
 }
-  
+
+/**
+ * @brief Enable / disable SN74 outputs.
+ *
+ * If the snOE option is enabled (see tinysn47_config.h), this function
+ * will allow you to enable or disable the output register.  
+ *
+ * Note that when disabled, the output register retains its previous
+ * value - the pins are simply put into high-impedance.
+ *
+ * @param off uint8_t value to pass a '0' or '1'.  As the chip uses
+ * logic low, setting off to '0' will ENABLE the output register.
+*/
 void snOE (uint8_t off)
 {
-  //kinda pointless; but saves a few bytes.
   #if SN74OE == 1  
     if (off==0) // enable
       //set OE pin low - ENABLE outputs
@@ -98,6 +133,16 @@ void snOE (uint8_t off)
 }
 
 #if DATA_XFER_MOD == SN74_BANG
+/**
+ * @brief Initializes the shifting logic.  
+ *
+ * This function comes in two (2) forms, determined by your selection of
+ * DATA_XFER_MOD in tinysn74_config.h.
+ *
+ * In bitbang mode (default); the function merely sets pins; whereas in
+ * SPI mode, the function will also initialize the timers and SPI
+ * "baudrate".
+*/
 void snShiftInit (void)
 {
   DOT_DDR |= 1<<(DOT_PIN); //DOT (MOSI) as output
@@ -105,6 +150,19 @@ void snShiftInit (void)
   CLK_PORT &= ~1<<(CLK_PIN); //CLK is low
 }
 
+/**
+ * @brief Shifting logic to get data from the micro to the shift
+ * registers
+ *
+ * This function comes in two (2) forms, determined by your selection of
+ * DATA_XFER_MOD in tinysn74_config.h.
+ *
+ * In bitbang mode (default), the function utilizes a for loop to
+ * iterate over the array of chip data.  In SPI mode, the SPI output
+ * register and timers are utilized to iterate over the data.
+ *
+ * @param *b is the pointer to the chip array.
+*/
 void snShift (uint8_t *b)
 {
   for (int chip=0;chip<NUMSN74;chip++) {
@@ -200,14 +258,12 @@ void snShiftInit (void)
   * utilizing the USITC strobe bit as the clock source for the 4 bit
   * counter. 
   */
-  USICR = 0b00011011; //hopefully this works.
 
-  /* If the above doesn't work
-  *USICR = 1<<(USIWM0)//3wire mode (SPI)
-  * | 1<<(USICS1) //CS1:0 = 1,0 set external clock source
-  * | 1<<(USICLK) //Set USITC as external clock
-  * | 1<<(USITC); //start the clock, mybe
-  */
+  USICR = 1<<(USIWM0)//3wire mode (SPI)
+   | 1<<(USICS1) //CS1:0 = 1,0 set external clock source
+   | 1<<(USICLK) //Set USITC as external clock
+   | 1<<(USITC); //start the clock, mybe
+  
   
 }
 
@@ -229,6 +285,13 @@ void snShift (uint8_t *b)
 
 #endif
 
+/**
+ * @brief Latcn data from SN74's internal shift register to the output.
+ *
+ * This function is what actually sets the output pins to the value
+ * contained in the input shift register.  Without calling this, the
+ * pins will never go logic high (or logic low).
+*/
 void snLat (void)
 {
   // Kick the SN74 RX register over to the pin outputs

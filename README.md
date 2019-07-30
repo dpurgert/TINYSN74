@@ -10,15 +10,15 @@ installation directory.
 
 The library includes two (2) header files:
 - tinysn74.h
-- tinysn74_config.h
+- tinysn74\_config.h
 
 The library provides several functions:
 - snInit -- This is called from within you sketch setup() function
-- snShift (byte b*) -- This shifts the data out, requires an array to be
+- snShift (byte b\*) -- This shifts the data out, requires an array to be
   passed in
 - snLat -- Latch shifted data to the output pins
 - snClr -- Clear the outputs
-- snOE -- (Optional) Must be enabled in tinysn74_config, allows
+- snOE -- (Optional) Must be enabled in tinysn74\_config, allows
   triggering the output enable pin from within your program
 
 
@@ -67,7 +67,8 @@ required if setting SPI Mode.
 
 V0.0.1 Initial test pinout
 
-Pins currently undefined in the library are marked as "+++" 
+Pins currently undefined in the library (i.e. available for use) are
+marked as "+++" 
 
 
 |desc|pin|(PDIP/SOIC)|pin|desc|
